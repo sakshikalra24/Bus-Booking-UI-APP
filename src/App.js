@@ -9,7 +9,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Reservation />}></Route>
+          <Route path="/" element={<Dashboard />}></Route>
           <Route path="/dashboard" element={<Dashboard />}></Route>
           <Route path="/reservation" element={<Reservation />}></Route>
         </Routes>
