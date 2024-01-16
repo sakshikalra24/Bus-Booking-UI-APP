@@ -20,7 +20,6 @@ const TableRowComponent = ({ row, onDelete, i }) => {
   const handleDeleteDialogOpen = () => setDeleteDialog(true);
   const handleDeleteDialogClose = () => setDeleteDialog(false);
 
-  const handleEditDialogOpen = () => setEditDialog(true);
   const handleEditDialogClose = () => setEditDialog(false);
 
   return (

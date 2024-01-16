@@ -19,7 +19,6 @@ const FormDialog = ({
   row,
   i,
 }) => {
-  console.log("🚀 ~ i:", i);
   const {
     register,
     handleSubmit,
@@ -27,27 +26,32 @@ const FormDialog = ({
   } = useForm();
   const onSubmit = (data) => {
     data.date = new Date().toJSON().slice(0, 10);
-    let array = [...customerDetails];
+    let customerDetailsArray = [...customerDetails];
 
-    if (array.filter((item) => item?.index === seatNumber)?.length <= 0) {
-      array.push({ ...data, index: seatNumber });
+    if (
+      customerDetailsArray.filter((item) => item?.index === seatNumber)
+        ?.length <= 0
+    ) {
+      customerDetailsArray.push({ ...data, index: seatNumber });
     } else {
       if (typeof open === "string") {
-        array[i] = { ...data, index: seatNumber };
-        console.log("🚀 ~ onSubmit ~ array:", array);
+        customerDetailsArray[i] = { ...data, index: seatNumber };
       }
     }
 
-    array.sort((a, b) => {
+    customerDetailsArray.sort((a, b) => {
       return a?.index - b?.index;
     });
-    sessionStorage.setItem("customerData", JSON.stringify(array));
-    setCustomerDetails(array);
+    sessionStorage.setItem(
+      "customerData",
+      JSON.stringify(customerDetailsArray)
+    );
+    setCustomerDetails(customerDetailsArray);
     handleClose();
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose} className="dialog">
       <DialogTitle>
         <h1>Passenger Information for seat number - {seatNumber + 1}</h1>
       </DialogTitle>

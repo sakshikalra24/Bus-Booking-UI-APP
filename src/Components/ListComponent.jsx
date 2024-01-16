@@ -15,7 +15,7 @@ const ListComponent = () => {
   };
 
   return (
-    <Paper>
+    <Paper className="reservation-list">
       {customerDetails?.length < 1 ? (
         <h3>Please go to the dashboard for booking</h3>
       ) : (

@@ -130,8 +130,8 @@ h1 {
 
 @media screen and (max-width: 600px) {
   .seat-button {
-    width: 35px;
-    height: 20px;
+    width: 30px;
+    height: 15px;
     .seatInner {
       height: 10px;
     }
@@ -158,7 +158,9 @@ h1 {
       padding: 15px;
     }
   }
-  td {
-    padding: 10px !important;
+  .dialog {
+    .MuiPaper-root {
+      margin: 10px !important;
+    }
   }
 }
