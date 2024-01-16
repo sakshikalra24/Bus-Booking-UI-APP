@@ -1,20 +1,32 @@
 import React, { useState } from "react";
 import FormDialog from "./FormDialog";
+import SeatGroup from "./SeatGroup";
 import wheel from "../images/steering-wheel-icon.svg";
 
 const SeatStructure = () => {
   const totalSeats = 40;
   const seats = Array.from({ length: totalSeats }, (_, index) => index);
+  const seatGroupsL = [];
+  const seatGroupsU = [];
 
-  const seatGroups = [];
   for (let i = 0; i < totalSeats; i += 3) {
-    seatGroups.push(seats.slice(i, i + 3));
+    if (i % 2 === 0) {
+      seatGroupsU.push(seats.slice(i, i + 3));
+    } else {
+      seatGroupsL.push(seats.slice(i, i + 3));
+    }
+  }
+
+  if (Array.isArray(seatGroupsU) && seatGroupsU.length > 0) {
+    const arr = seatGroupsU[seatGroupsU.length - 1];
+    seatGroupsL[seatGroupsL.length - 1].push(arr[arr.length - 1]);
+    seatGroupsL[seatGroupsL.length - 1].sort();
+    seatGroupsU[seatGroupsU.length - 1].pop();
   }
 
   const [selectedSeats, setSelectedSeats] = useState();
   const [dialogForm, setDialogForm] = useState(false);
   const [customerDetails, setCustomerDetails] = useState([]);
-
   const passengerInfo = JSON.parse(sessionStorage.getItem("customerData"));
 
   const handleSeatClick = (seatNumber) => {
@@ -35,72 +47,30 @@ const SeatStructure = () => {
           className="berth lower"
           style={{ display: "flex", position: "relative" }}
         >
-          <img className="wheelIcon" src={wheel} />
+          <img className="wheelIcon" src={wheel} alt="wheel" />
           <div className="border"></div>
-          {seatGroups.map((group, index) => (
-            <div key={index}>
-              <div className="container">
-                {index % 2 === 0 && (
-                  <div>
-                    {group.map((seatNumber) => (
-                      <div
-                        className={
-                          (seatNumber + 1) % 3 === 0
-                            ? "last-row flex-column-center"
-                            : "flex-column-center"
-                        }
-                      >
-                        <button
-                          key={seatNumber}
-                          onClick={() => handleSeatClick(seatNumber)}
-                          disabled={disableButton(seatNumber)}
-                          className={
-                            selectedSeats === seatNumber ? "selected" : ""
-                          }
-                        >
-                          <div class="seatInner"></div>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
+          {seatGroupsU.map((group, index) => (
+            <SeatGroup
+              key={index}
+              seats={group}
+              onClick={handleSeatClick}
+              selected={selectedSeats}
+              disabled={disableButton}
+            />
           ))}
         </div>
         <div
           className="berth upper"
           style={{ display: "flex", position: "relative" }}
         >
-          {seatGroups.map((group, index) => (
-            <div key={index}>
-              <div className="container">
-                {index % 2 !== 0 && (
-                  <div>
-                    {group.map((seatNumber) => (
-                      <div
-                        className={
-                          (seatNumber + 1) % 3 === 0
-                            ? "last-row flex-column-center"
-                            : "flex-column-center"
-                        }
-                      >
-                        <button
-                          key={seatNumber}
-                          onClick={() => handleSeatClick(seatNumber)}
-                          disabled={disableButton(seatNumber)}
-                          className={
-                            selectedSeats === seatNumber ? "selected" : ""
-                          }
-                        >
-                          <div className="seatInner"></div>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
+          {seatGroupsL.map((group, index) => (
+            <SeatGroup
+              key={index}
+              seats={group}
+              onClick={handleSeatClick}
+              selected={selectedSeats}
+              disabled={disableButton}
+            />
           ))}
         </div>
       </div>

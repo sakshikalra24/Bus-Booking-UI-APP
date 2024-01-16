@@ -19,18 +19,25 @@ const FormDialog = ({
   row,
   i,
 }) => {
+  console.log("🚀 ~ i:", i);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const onSubmit = (data) => {
     data.date = new Date().toJSON().slice(0, 10);
-    const array = [...customerDetails];
+    let array = [...customerDetails];
+
     if (array.filter((item) => item?.index === seatNumber)?.length <= 0) {
       array.push({ ...data, index: seatNumber });
+    } else {
+      if (typeof open === "string") {
+        array[i] = { ...data, index: seatNumber };
+        console.log("🚀 ~ onSubmit ~ array:", array);
+      }
     }
+
     array.sort((a, b) => {
       return a?.index - b?.index;
     });
